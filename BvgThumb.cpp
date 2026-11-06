@@ -107,6 +107,13 @@ STDAPI DllUnregisterServer() {
     std::wstring shellex = L".bvg\\ShellEx\\";
     shellex += kThumbGuid;
     RegDeleteTreeW(HKEY_CLASSES_ROOT, shellex.c_str());
+
+    HKEY hk;
+    if (RegOpenKeyExW(HKEY_CLASSES_ROOT, L".bvg", 0, KEY_WRITE, &hk) == ERROR_SUCCESS) {
+        RegDeleteValueW(hk, nullptr);
+        RegCloseKey(hk);
+    }
+
     return S_OK;
 }
 
